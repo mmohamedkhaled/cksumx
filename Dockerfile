@@ -6,7 +6,7 @@
 ARG OPENSSL_VERSION=3
 
 # --- build stage -------------------------------------------------------------
-FROM ubuntu:24.04 AS build
+FROM ubuntu:26.04 AS build
 
 ARG OPENSSL_VERSION
 
@@ -28,7 +28,7 @@ RUN cmake -B build -DCMAKE_BUILD_TYPE=Release -DCKSUMX_WARNINGS_AS_ERRORS=ON \
     && cmake --build build -j"$(nproc)" --target cksumx_cli
 
 # --- runtime stage -----------------------------------------------------------
-FROM ubuntu:24.04 AS runtime
+FROM ubuntu:26.04 AS runtime
 
 ARG OPENSSL_VERSION
 
