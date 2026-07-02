@@ -25,7 +25,7 @@ jobs:
             compiler: gcc
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Install OpenSSL (Linux)
         if: runner.os == 'Linux'
@@ -68,7 +68,7 @@ jobs:
       CC: clang
       CXX: clang++
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Install OpenSSL
         run: |
