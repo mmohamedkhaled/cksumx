@@ -57,7 +57,12 @@ if [ -z "$BIN" ] || [ ! -x "$BIN" ]; then
     fi
 fi
 
-mapfile -t SAMPLES < <(find "$SAMPLES_DIR" -type f -name '*.txt' | sort)
+# Populate the sample list without `mapfile` (a bash 4+ builtin), so the suite
+# also runs under macOS system bash 3.2.
+SAMPLES=()
+while IFS= read -r sample; do
+    SAMPLES+=("$sample")
+done < <(find "$SAMPLES_DIR" -type f -name '*.txt' | sort)
 
 if [ "${#SAMPLES[@]}" -eq 0 ]; then
     echo "error: no sample files found in $SAMPLES_DIR" >&2
