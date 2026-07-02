@@ -1,0 +1,12 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=${prefix}
+includedir=${prefix}/@CMAKE_INSTALL_INCLUDEDIR@
+libdir=${exec_prefix}/@CMAKE_INSTALL_LIBDIR@
+
+Name: cksumx
+Description: Streaming cryptographic checksum utility library (SHA-1/2/3, BLAKE2, MD5, ...)
+Version: @PROJECT_VERSION@
+URL: https://github.com/mmohamedkhaled/cksumx
+Requires.private: libcrypto
+Cflags: -I${includedir}
+Libs: -L${libdir} -lcksumx

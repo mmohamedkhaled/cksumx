@@ -1,0 +1,4 @@
+# By default, request review from the maintainer on every PR.
+# See https://docs.github.com/en/repositories/managing-your-repositories-settings-and-features/customizing-your-repository/about-code-owners
+
+* @mmohamedkhaled
