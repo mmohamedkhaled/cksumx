@@ -79,11 +79,23 @@ jobs:
           sha256sum cksumx-* > checksums-sha256.txt
           echo "Checksums:" && cat checksums-sha256.txt
 
-      - name: Create GitHub release
+      - name: Publish GitHub release (idempotent)
+        working-directory: artifacts
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
         run: |
-          gh release create "${{ github.ref_name }}" \
-            --title "${{ github.ref_name }}" \
-            --generate-notes \
-            artifacts/*
+          set -euo pipefail
+          TAG="${{ github.ref_name }}"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG already exists; refreshing assets."
+            # Re-point the release at this build and replace any existing assets.
+            gh release edit "$TAG" --target "${{ github.sha }}"
+            gh release upload "$TAG" cksumx-* checksums-sha256.txt --clobber
+          else
+            gh release create "$TAG" \
+              --title "$TAG" \
+              --notes "cksumx $TAG" \
+              --target "${{ github.sha }}" \
+              cksumx-* checksums-sha256.txt
+          fi
